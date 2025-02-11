@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:untitled3/controller/auth_controller.dart';
+import 'package:untitled3/controller/register_controller.dart';
 import 'package:untitled3/services/auth_services.dart';
 import 'sign_in.dart';
 
@@ -11,54 +11,69 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(AuthController());
+    RegisterController controller = Get.find();
+
 
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Register',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 32,
-                  fontWeight: FontWeight.w900,
-                ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [SizedBox(height: 40),
+            Container(
+              height: 80,
+              width: 140,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
               ),
-              const SizedBox(height: 8),
-              Text(
-                'Create your account',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 20,
-                ),
+              child: Image.asset(
+                'assets/aaishwarya logo.jpg',
+                fit: BoxFit.cover,
               ),
-              const SizedBox(height: 24),
-              _buildTextField(controller.textname, 'NAME', Icons.person),
-              const SizedBox(height: 16),
-              _buildTextField(controller.textEmail, 'EMAIL', Icons.email),
-              const SizedBox(height: 16),
-              _buildTextField(controller.textPassword, 'PASSWORD', Icons.lock),
-              const SizedBox(height: 16),
-              ValueListenableBuilder<bool>(
-                valueListenable: _isObscured,
-                builder: (context, isObscured, child) {
-                  return _buildPasswordField(
-                    controller.textconfirmpassword,
-                    'CONFIRM PASSWORD',
-                    isObscured,
-                  );
-                },
+            ),SizedBox(height: 15),
+            Text(
+              'Register',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 32,
+                fontWeight: FontWeight.w900,
               ),
-              const SizedBox(height: 40),
-              _buildSignUpButton(controller),
-              const SizedBox(height: 20),
-              _buildLoginPrompt(),
-            ],
-          ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Create your account',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 20,
+              ),
+            ),
+            const SizedBox(height: 5),
+            Expanded(
+              child: ListView(
+                children: [
+                  _buildTextField(controller.txtName, 'NAME', Icons.person),
+                  const SizedBox(height: 16),
+                  _buildTextField(controller.textEmail, 'EMAIL', Icons.email),
+                  const SizedBox(height: 16),
+                  _buildTextField(controller.textPassword, 'PASSWORD', Icons.lock),
+                  const SizedBox(height: 16),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: _isObscured,
+                    builder: (context, isObscured, child) {
+                      return _buildPasswordField(
+                        controller.txtConfirmPassword,
+                        'CONFIRM PASSWORD',
+                        isObscured,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 40),
+                  _buildSignUpButton(controller),SizedBox(height: 50),
+                  _buildLoginPrompt(),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -66,18 +81,18 @@ class SignUpScreen extends StatelessWidget {
 
   Widget _buildTextField(TextEditingController controller, String label, IconData icon) {
     return TextField(
-      cursorColor: Colors.deepOrangeAccent.shade100,
+      cursorColor: Colors.black,
       controller: controller,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: Colors.deepOrangeAccent.shade100),
+        prefixIcon: Icon(icon, color: Colors.black),
         labelText: label,
-        labelStyle: TextStyle(color: Colors.deepOrangeAccent.shade100),
+        labelStyle: TextStyle(color: Colors.black),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+          borderSide: BorderSide(color: Colors.black),
           borderRadius: BorderRadius.circular(15),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+          borderSide: BorderSide(color: Colors.black),
           borderRadius: BorderRadius.circular(15),
         ),
       ),
@@ -86,16 +101,16 @@ class SignUpScreen extends StatelessWidget {
 
   Widget _buildPasswordField(TextEditingController controller, String label, bool isObscured) {
     return TextField(
-      cursorColor: Colors.deepOrangeAccent.shade100,
+      cursorColor: Colors.black,
       controller: controller,
       obscureText: isObscured,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.lock, color: Colors.deepOrangeAccent.shade100),
+        prefixIcon: Icon(Icons.lock, color: Colors.black),
         suffixIcon: ValueListenableBuilder<bool>(
           valueListenable: _isObscured,
           builder: (context, value, child) {
             return IconButton(
-              icon: Icon(value ? Icons.visibility_off : Icons.visibility, color: Colors.deepOrangeAccent.shade100),
+              icon: Icon(value ? Icons.visibility_off : Icons.visibility, color: Colors.black),
               onPressed: () {
                 _isObscured.value = !_isObscured.value;
               },
@@ -103,38 +118,39 @@ class SignUpScreen extends StatelessWidget {
           },
         ),
         labelText: label,
-        labelStyle: TextStyle(color: Colors.deepOrangeAccent.shade100),
+        labelStyle: TextStyle(color: Colors.black),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+          borderSide: BorderSide(color: Colors.black),
           borderRadius: BorderRadius.circular(15),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+          borderSide: BorderSide(color: Colors.black),
           borderRadius: BorderRadius.circular(15),
         ),
       ),
     );
   }
 
-  Widget _buildSignUpButton(AuthController controller) {
+  /// **Sign Up Button**
+  Widget _buildSignUpButton(RegisterController controller) {
     return InkWell(
-      onTap: () {
-        AuthServices.authServices.createAccountWithEmailAndPassword(
+      onTap: () async {
+        await AuthServices.authServices.createAccountWithEmailAndPassword(
           controller.textEmail.text,
           controller.textPassword.text,
         );
-
         controller.textEmail.clear();
-        controller.textname.clear();
+        controller.txtName.clear();
         controller.textPassword.clear();
-        controller.textconfirmpassword.clear();
+        controller.txtConfirmPassword.clear();
+        Get.offAll(SignIn(), transition: Transition.fade);
       },
       child: Container(
         height: 50,
         width: double.infinity,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: Colors.deepOrangeAccent.shade100,
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.red,
           boxShadow: [
             BoxShadow(
               color: Colors.deepOrangeAccent.shade100.withOpacity(0.2),
@@ -149,8 +165,8 @@ class SignUpScreen extends StatelessWidget {
             'Sign Up',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
+              fontSize: 23,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
@@ -158,6 +174,7 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
+  /// **Login Redirect**
   Widget _buildLoginPrompt() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -169,14 +186,14 @@ class SignUpScreen extends StatelessWidget {
         const SizedBox(width: 8),
         InkWell(
           onTap: () {
-            Get.to(SignIn(), transition: Transition.circularReveal);
+            Get.to(SignIn(), transition: Transition.fade);
           },
           child: Text(
             'Login',
             style: TextStyle(
-              color: Colors.deepOrangeAccent.shade100,
+              color: Colors.red,
               fontSize: 18,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),

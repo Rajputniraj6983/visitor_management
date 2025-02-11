@@ -1,14 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
-class AuthServices {
+class AuthServices extends GetxController{
   AuthServices._();
+  AuthServices();
 
   static AuthServices authServices = AuthServices._();
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  // account create
-
+  // account create0
   Future<void> createAccountWithEmailAndPassword(
       String email, String password) async {
     await _firebaseAuth.createUserWithEmailAndPassword(
